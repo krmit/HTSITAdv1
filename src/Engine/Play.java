@@ -6,6 +6,7 @@ import exceptions.WrongDmgType;
 import Concepts.Move;
 import Concepts.Turn;
 import Creatures.Human;
+import Creatures.HumanKnight;
 import Creatures.Humanoid;
 
 public class Play {
@@ -37,12 +38,12 @@ public class Play {
 		*/
 		
 		// Choose player one
-		Humanoid player= new Human("Rasmus");
+		Humanoid player= new Humanoid("Rasmus");
 		
 		
 
 		// Choose player two
-		Humanoid player2 = new Human("Cabbe");
+		HumanKnight player2 = new HumanKnight("Rasmus");
 		message(player.Description());
 		message(player2.Description());
 		
