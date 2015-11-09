@@ -16,6 +16,14 @@ public abstract class Creature {
 	private String Name;
 	private static int NumberOfCreatures=0;
 	
+	public int getHP() {
+		return HP;
+	}
+
+	public void setHP(int hP) {
+		HP = hP;
+	}
+
 	protected List<Turn> Selections;
 
 	protected int MaxHP;
@@ -49,6 +57,7 @@ public abstract class Creature {
 	}
 	
 	public String ShowMoves(Move oponent) {
+		Selections.clear();
 		return "";
 	}
 	

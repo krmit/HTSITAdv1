@@ -3,6 +3,7 @@ package Engine;
 import java.util.Scanner;
 
 import exceptions.WrongDmgType;
+import Concepts.Creature;
 import Concepts.Move;
 import Concepts.Turn;
 import Creatures.Human;
@@ -38,28 +39,26 @@ public class Play {
 		*/
 		
 		// Choose player one
-		Humanoid player= new Humanoid("Rasmus");
+		Creature player1= new Human("Cabbe");
 		
 		
 
 		// Choose player two
-		HumanKnight player2 = new HumanKnight("Rasmus");
-		message(player.Description());
+		Creature player2 = new HumanKnight("Rasmus");
+		message(player1.Description());
 		message(player2.Description());
 		
 		// Battle
 		
+		Battel b = new Battel(player1,player2); 
 		
-		Turn t = new Turn();
-		
-		
-		System.out.println(player.ShowMoves(t.own));
-		t = player.SelectMove();
-		System.out.println(player.DoMove(t));
-		
-		System.out.println(player2.ShowMoves(t.own));
-		t = player2.SelectMove();
-		System.out.println(player2.DoMove(t));
+		if(b.Begin()) {
+			message("Spelare 1 : " + player1.getName() +" vann.");
+		}
+		else 
+		{
+			message("Spelare 2 : " + player2.getName() +" vann.");
+		}
 		
 		message(player2.Description());
 	}

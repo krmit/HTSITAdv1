@@ -45,11 +45,17 @@ public class Humanoid extends Creature {
     }
     
     protected void Damage(Move move) {
-    	int dmg = Def - move.getDamage();
-    	if(0 > dmg) {
-    	   HP += dmg; 
-    	}
+    move.setDamage(move.getDamage()-Def);
+		
+		if(0 > move.getDamage()) {
+			move.setDamage(0); 
+	    }
+		
      }
+    
+	private void Accuracy(Move oponent) {
+		oponent.setAccuracy(oponent.getAccuracy()*(1-(2.0*Dex)/100.0));
+	}
     
 	public String Description() {
 		String report = CreatureType + " : " + getName() +"\n";
@@ -67,47 +73,34 @@ public class Humanoid extends Creature {
 		return report;
 	}
 
-	public Turn hit(Move oponent) {
-		Move own = null;
+	public Turn hit(Move oponent) throws WrongDmgType {
+		
+       Move own =  new Move(null,null, 2*Str+Dex, 0.8);
+		
 		oponent = new Move(oponent);
-		
-		try {
-			own =  new Move(null,null, 2*Str+Dex, 0.8);
-		} catch (WrongDmgType e) {}
-		
-		oponent.setAccuracy(oponent.getAccuracy()*(1-2.0*Dex/100.0));
-		oponent.setDamage(oponent.getDamage()-Str-Def);
-		
-		if(0 > oponent.getDamage()) {
-			oponent.setDamage(0); 
-	    }
+		Accuracy(oponent);
+	    Damage(oponent);
 		
 		return new Turn("Slå", oponent, own);
 	}
-	
-	public Turn kick(Move oponent) {
-		Move own = null;
+
+	public Turn kick(Move oponent) throws WrongDmgType {
+        Move own =  new Move(null,null, 2*Str+Dex, 0.8);
+		
 		oponent = new Move(oponent);
+		Accuracy(oponent);
+	    Damage(oponent);
 		
-		try {
-			own =  new Move(null,null, 3*Str+Dex, 0.5);
-		} catch (WrongDmgType e) {}
-		
-		oponent.setDamage(oponent.getDamage()-Def);
-		
-		if(0 > oponent.getDamage()) {
-			oponent.setDamage(0); 
-	    }
-		
-		return new Turn("Sparka", oponent,own);
+		return new Turn("Slå", oponent, own);
 	}
 	
 	public String ShowMoves(Move oponent) {
 		String result = super.ShowMoves(oponent);
 		
-		result += RegisterMove("Slå",hit(oponent));
-		result += RegisterMove("Kick",kick(oponent));
-		
+		try {
+			result += RegisterMove("Slå",hit(oponent));
+		    result += RegisterMove("Kick",kick(oponent));
+		} catch (WrongDmgType e) {e.printStackTrace();}
 		return result;
 	}
 	
